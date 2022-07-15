@@ -122,6 +122,7 @@ NTSTATUS LdrpLoadDll(ULONG flags, UNICODE_STRING* module_file_name, PHANDLE ptr_
 	}
 
 	HMODULE nt_dll = GetModuleHandleA("ntdll.dll"); // Get ntdll module handle.
+	// Pattern for 10.0.19043 Build 19043
 	LPVOID ldrp_load_dll = reinterpret_cast<LPVOID>(PatternScan(nt_dll, "89 84 24 ? ? ? ? 53 8B 5D 0C 56") - 0x15); // Scanning location for LdrpLoadDLL.
 
 	result = reinterpret_cast<fnLdrpLoadDll>(ldrp_load_dll)(module_file_name, &weird_struct, flags, &ldr_data_table_entry); // Calling LdrpLoadDLL
